@@ -1,0 +1,39 @@
+<h3 class="form-title">View Contact Details</h3>
+
+
+<div class="input-form">
+  <label>User ID: </label>
+  <input type="number" [(ngModel)]="userId" placeholder="Enter User ID" />
+
+  <label>Contact ID: </label>
+  <input type="number" [(ngModel)]="contactId" placeholder="Enter Contact ID" />
+
+  <button (click)="fetchContactDetails()">Fetch Details</button>
+</div>
+
+<table class="contact-detail-table" *ngIf="contactDetails.length > 0">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Type</th>
+      <th>Value</th>
+      <th>User ID</th>
+      <th>Contact ID</th>
+      <th>Is Active</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let cd of contactDetails">
+      <td>{{ cd.id }}</td>
+      <td>{{ cd.type }}</td>
+      <td>{{ cd.value }}</td>
+      <td>{{ cd.userId }}</td>
+      <td>{{ cd.contactId }}</td>
+      <td>
+        <input type="checkbox" [checked]="cd.isActive" disabled />
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<p *ngIf="contactDetails.length === 0">No contact details found.</p>

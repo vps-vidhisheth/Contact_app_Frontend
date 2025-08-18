@@ -1,0 +1,98 @@
+
+.form-title {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+  font-family: Arial, sans-serif;
+}
+
+.input-form {
+  max-width: 450px;
+  margin: 0 auto 25px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  font-family: Arial, sans-serif;
+}
+
+
+.input-form label {
+  display: block;
+  margin-top: 12px;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #555;
+}
+
+.input-form input[type="number"] {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.input-form button {
+  display: block;
+  width: 100%;
+  margin-top: 15px;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.input-form button:hover {
+  background-color: #0056b3;
+}
+
+.contact-detail-table {
+  width: 90%;
+  margin: 0 auto 20px auto;
+  border-collapse: collapse;
+  font-family: Arial, sans-serif;
+  text-align: left;
+}
+
+.contact-detail-table th,
+.contact-detail-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+}
+
+.contact-detail-table th {
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+}
+
+.contact-detail-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.contact-detail-table input[type="checkbox"] {
+  cursor: not-allowed;
+}
+
+p {
+  text-align: center;
+  font-style: italic;
+  color: #888;
+}
+
+@media (max-width: 500px) {
+  .input-form, .contact-detail-table {
+    width: 95%;
+  }
+
+  .input-form input[type="number"], .input-form button {
+    font-size: 13px;
+  }
+}

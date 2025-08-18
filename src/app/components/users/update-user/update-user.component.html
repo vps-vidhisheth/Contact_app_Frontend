@@ -1,0 +1,34 @@
+<form (ngSubmit)="updateUser()">
+  <label>User ID:</label>
+  <input type="number" [(ngModel)]="userId" name="userId" required />
+  <button type="button" (click)="loadUser()">Load User</button>
+
+  <label>First Name:</label>
+  <input type="text" [(ngModel)]="user.f_name" name="f_name" />
+
+  <label>Last Name:</label>
+  <input type="text" [(ngModel)]="user.l_name" name="l_name" />
+
+  <label>Email:</label>
+  <input type="email" [(ngModel)]="user.email" name="email" />
+
+  <label>Password (leave blank to keep current):</label>
+  <input type="password" [(ngModel)]="user.password" name="password" />
+
+  <label>Admin:</label>
+  <select [(ngModel)]="user.is_admin" name="is_admin">
+    <option [ngValue]="true">Yes</option>
+    <option [ngValue]="false">No</option>
+  </select>
+
+  <label>Active:</label>
+  <select [(ngModel)]="user.is_active" name="is_active">
+    <option [ngValue]="true">Yes</option>
+    <option [ngValue]="false">No</option>
+  </select>
+
+  <button type="submit">Update User</button>
+
+  <div *ngIf="successMessage" class="success">{{ successMessage }}</div>
+  <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+</form>

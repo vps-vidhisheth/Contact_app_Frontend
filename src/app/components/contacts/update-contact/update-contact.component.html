@@ -1,0 +1,48 @@
+<div class="update-form">
+  <h2>Update Contact</h2>
+
+  <form (ngSubmit)="onUpdateContact()">
+
+    <div>
+      <label>User ID:</label>
+      <input 
+        type="number" 
+        [(ngModel)]="updateData.userId" 
+        name="userId" 
+        required 
+        placeholder="Enter User ID" />
+    </div>
+
+    <div>
+      <label>Contact ID:</label>
+      <input 
+        type="number" 
+        [(ngModel)]="updateData.contactId" 
+        name="contactId" 
+        required 
+        placeholder="Enter Contact ID" />
+    </div>
+
+    <div>
+      <label>Field:</label>
+      <input 
+        type="text" 
+        [(ngModel)]="updateData.field" 
+        name="field" 
+        required 
+        placeholder="firstname / lastname / is_active" />
+    </div>
+
+    <div>
+      <label>Value:</label>
+      <input 
+        type="text" 
+        [(ngModel)]="updateData.value" 
+        name="value" 
+        required 
+        placeholder="Enter new value" />
+    </div>
+
+    <button type="submit">Update Contact</button>
+  </form>
+</div>

@@ -1,0 +1,127 @@
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f8fb; 
+  color: #333;
+}
+
+
+nav {
+  background: linear-gradient(90deg, #005f99, #007acc);
+  padding: 12px 20px;
+  display: flex;
+  justify-content: center; 
+  gap: 30px;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 8px 14px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+nav a:hover {
+  background-color: white;
+  color: #005f99;
+}
+
+nav a.active {
+  background-color: #e6f3ff;
+  color: #003d66;
+}
+
+
+h1, h2, h3 {
+  text-align: center;
+  margin-top: 20px;
+  color: #005f99;
+}
+
+
+form {
+  background: white;
+  max-width: 400px;
+  margin: 30px auto;
+  padding: 20px 25px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 15px rgba(0,0,0,0.08);
+}
+
+form label {
+  display: block;
+  font-weight: bold;
+  margin: 10px 0 5px;
+  color: #005f99;
+}
+
+form input, form textarea {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 12px;
+  border: 1px solid #b3d4ff;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+form textarea {
+  resize: vertical;
+}
+
+form button {
+  width: 100%;
+  padding: 10px;
+  background-color: #007acc;
+  border: none;
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+form button:hover {
+  background-color: #005f99;
+}
+
+table {
+  width: 90%;
+  margin: 30px auto;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0px 4px 15px rgba(0,0,0,0.08);
+}
+
+table th, table td {
+  padding: 12px 15px;
+  border: 1px solid #d0e3ff;
+  text-align: left;
+}
+
+table th {
+  background-color: #e6f3ff;
+  font-weight: bold;
+  color: #003d66;
+}
+
+table tr:nth-child(even) {
+  background-color: #f4f8fb;
+}
+
+table tr:hover {
+  background-color: #d6eaff;
+}
+
+.container {
+  padding: 20px;
+}

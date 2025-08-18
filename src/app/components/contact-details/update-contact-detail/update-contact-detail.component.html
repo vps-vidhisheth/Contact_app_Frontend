@@ -1,0 +1,23 @@
+<h3 class="form-title">Update Contact Detail</h3>
+<form (ngSubmit)="updateContactDetail()">
+
+  <label>Detail ID:</label>
+  <input type="number" [(ngModel)]="detailId" name="detailId" required />
+
+  <label>User ID:</label>
+  <input type="number" [(ngModel)]="contactDetail.userId" name="userId" required />
+
+  <label>Contact ID:</label>
+  <input type="number" [(ngModel)]="contactDetail.contactId" name="contactId" required />
+
+  <label>Type (Email / Phone):</label>
+  <input type="text" [(ngModel)]="contactDetail.type" name="type" required />
+
+  <label>Value:</label>
+  <input type="text" [(ngModel)]="contactDetail.value" name="value" required />
+
+  <label>Is Active:</label>
+  <input type="checkbox" [(ngModel)]="contactDetail.isActive" name="isActive" />
+
+  <button type="submit">Update</button>
+</form>

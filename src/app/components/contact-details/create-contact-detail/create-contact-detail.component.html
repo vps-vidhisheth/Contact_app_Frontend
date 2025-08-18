@@ -1,0 +1,22 @@
+<div>
+  <h2>Create Contact Detail</h2>
+
+  <label>User ID:</label>
+  <input type="number" [(ngModel)]="userId" name="userId" />
+
+  <label>Contact ID:</label>
+  <input type="number" [(ngModel)]="contactId" name="contactId" />
+
+  <label>Type:</label>
+  <input type="text" [(ngModel)]="contactDetail.type" name="type" placeholder="email or phone" />
+
+  <label>Value:</label>
+  <input type="text" [(ngModel)]="contactDetail.value" name="value" />
+
+  <label>
+    <input type="checkbox" [(ngModel)]="contactDetail.isActive" name="isActive" />
+    Is Active
+  </label>
+
+  <button (click)="createContactDetail()">Create</button>
+</div>

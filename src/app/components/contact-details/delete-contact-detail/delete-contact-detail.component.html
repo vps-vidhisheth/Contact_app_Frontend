@@ -1,0 +1,16 @@
+<h3>Delete Contact Detail</h3>
+<form (ngSubmit)="deleteContactDetail()">
+  <label>User ID:</label>
+  <input [(ngModel)]="userId" name="userId" required type="number" />
+  <br />
+
+  <label>Contact ID:</label>
+  <input [(ngModel)]="contactId" name="contactId" required type="number" />
+  <br />
+
+  <label>Detail ID:</label>
+  <input [(ngModel)]="detailId" name="detailId" required type="number" />
+  <br />
+
+  <button type="submit">Delete</button>
+</form>

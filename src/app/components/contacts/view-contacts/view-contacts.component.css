@@ -1,0 +1,75 @@
+
+h3 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+  font-family: Arial, sans-serif;
+}
+
+input[type="number"] {
+  width: 150px;
+  padding: 8px 10px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+button {
+  padding: 8px 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #014e9f;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  font-family: Arial, sans-serif;
+}
+
+thead {
+  background-color: #007bff;
+  color: white;
+}
+
+th, td {
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+tr:hover {
+  background-color: #f1f1f1;
+}
+
+p {
+  text-align: center;
+  margin-top: 20px;
+  color: #888;
+  font-style: italic;
+}
+
+@media (max-width: 600px) {
+  input[type="number"] {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  button {
+    width: 100%;
+  }
+
+  table, th, td {
+    font-size: 12px;
+  }
+}
