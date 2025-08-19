@@ -1,16 +1,39 @@
+
 <h3>Create Contact</h3>
 <form (ngSubmit)="createContact()">
+
   <label>User ID:</label>
-  <input type="number" [(ngModel)]="userId" name="userId" required>
+  <input type="number" [(ngModel)]="userId" name="userId" required appDynamicUrl="userId">
 
   <label>First Name:</label>
-  <input type="text" [(ngModel)]="contact.firstName" name="firstName" required>
+  <input type="text" [(ngModel)]="contact.firstName" name="firstName" required appDynamicUrl="first_name">
 
   <label>Last Name:</label>
-  <input type="text" [(ngModel)]="contact.lastName" name="lastName" required>
+  <input type="text" [(ngModel)]="contact.lastName" name="lastName" appDynamicUrl="last_name">
 
   <label>Active:</label>
-  <input type="checkbox" [(ngModel)]="contact.isActive" name="isActive">
+  <input type="checkbox" [(ngModel)]="contact.isActive" name="isActive" appDynamicUrl="is_active">
+
+  <hr>
+  <h4>Contact Details</h4>
+
+  <label>Type:</label>
+  <select [(ngModel)]="newDetail.type" name="detailType" appDynamicUrl="detail_type">
+    <option value="email">Email</option>
+    <option value="phone">Phone</option>
+  </select>
+
+  <label>Value:</label>
+  <input type="text" [(ngModel)]="newDetail.value" name="detailValue" appDynamicUrl="detail_value">
+
+  <button type="button" (click)="addDetail()">Add Detail</button>
+
+  <ul>
+    <li *ngFor="let d of contact.details; let i = index">
+      {{d.type}}: {{d.value}}
+      <button type="button" (click)="removeDetail(i)">Remove</button>
+    </li>
+  </ul>
 
   <button type="submit">Create</button>
 </form>

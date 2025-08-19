@@ -1,3 +1,4 @@
+
 <form (ngSubmit)="createUser()" class="user-form">
 
   <div class="form-group">
@@ -9,6 +10,7 @@
       placeholder="First Name"
       required
       class="form-control"
+      appDynamicUrl="f_name"
     />
   </div>
 
@@ -21,6 +23,7 @@
       placeholder="Last Name"
       required
       class="form-control"
+      appDynamicUrl="l_name"
     />
   </div>
 
@@ -34,6 +37,7 @@
       placeholder="Email"
       required
       class="form-control"
+      appDynamicUrl="email"
     />
   </div>
 
@@ -47,6 +51,7 @@
       placeholder="Password"
       required
       class="form-control"
+      appDynamicUrl="password"
     />
   </div>
 
@@ -58,6 +63,7 @@
       name="is_admin"
       required
       class="form-control"
+      appDynamicUrl="is_admin"
     >
       <option [ngValue]="true">Yes</option>
       <option [ngValue]="false">No</option>
@@ -72,6 +78,7 @@
       name="is_active"
       required
       class="form-control"
+      appDynamicUrl="is_active"
     >
       <option [ngValue]="true">Yes</option>
       <option [ngValue]="false">No</option>

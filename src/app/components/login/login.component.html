@@ -1,6 +1,10 @@
+
+
 <div class="login-container">
   <h2>Login</h2>
   <form (ngSubmit)="onLogin()" #loginForm="ngForm" novalidate>
+    
+    <!-- Email Input with Dynamic URL -->
     <div class="form-group">
       <label for="email">Email</label>
       <input
@@ -8,6 +12,7 @@
         type="email"
         name="email"
         [(ngModel)]="email"
+        (ngModelChange)="updateURL(email)"
         required
         email
         placeholder="Enter your email"
@@ -19,6 +24,7 @@
       </div>
     </div>
 
+    <!-- Password Input -->
     <div class="form-group">
       <label for="password">Password</label>
       <input
@@ -35,11 +41,7 @@
       </div>
     </div>
 
+    <!-- Submit Button -->
     <button type="submit" [disabled]="!loginForm.form.valid">Login</button>
   </form>
-
-  <p class="switch-auth">
-    Don't have an account?
-    <a routerLink="/register">Register here</a>
-  </p>
 </div>

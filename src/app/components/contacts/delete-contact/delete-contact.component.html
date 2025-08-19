@@ -1,11 +1,22 @@
+
 <h3>Delete Contact</h3>
 <form (ngSubmit)="onDeleteContact()">
   <label>User ID:</label>
-  <input type="number" [(ngModel)]="userId" name="userId" required />
+  <input 
+    type="number" 
+    [(ngModel)]="userId" 
+    name="userId" 
+    required 
+    (ngModelChange)="updateQueryParams()" />
   <br />
 
   <label>Contact ID:</label>
-  <input type="number" [(ngModel)]="contactId" name="contactId" required />
+  <input 
+    type="number" 
+    [(ngModel)]="contactId" 
+    name="contactId" 
+    required 
+    (ngModelChange)="updateQueryParams()" />
   <br />
 
   <button type="submit">Delete</button>

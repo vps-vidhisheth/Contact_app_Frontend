@@ -1,6 +1,7 @@
+
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { ContactService } from '../../../../services/contact.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { ContactService, Contact, ContactDetail } from '../../../../services/contact.service';
 
 @Component({
   selector: 'app-create-contact',
@@ -11,38 +12,68 @@ export class CreateContactComponent {
   contact = {
     firstName: '',
     lastName: '',
-    isActive: true
+    isActive: true,
+    details: [] as ContactDetail[]
   };
+
+  newDetail: ContactDetail = { type: 'email', value: '' };
 
   userId!: number; 
 
   constructor(
     private contactService: ContactService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
-  createContact() {
-    if (!this.userId || this.userId <= 0) {
-      alert('Please enter a valid User ID!');
+   ngOnInit() {
+    // Load values from query params
+    const params = this.route.snapshot.queryParams;
+    if (params['userId']) this.userId = +params['userId'];
+    if (params['first_name']) this.contact.firstName = params['first_name'];
+    if (params['last_name']) this.contact.lastName = params['last_name'];
+    if (params['is_active'] !== undefined) this.contact.isActive = params['is_active'] === 'true';
+    if (params['detail_type'] && params['detail_value']) {
+      this.newDetail.type = params['detail_type'];
+      this.newDetail.value = params['detail_value'];
+      // Optional: push to details array immediately
+      this.contact.details.push({ type: this.newDetail.type, value: this.newDetail.value });
+    }
+  }
+
+  addDetail() {
+    if (!this.newDetail.value.trim()) {
+      alert('Detail value cannot be empty');
       return;
     }
-
-    const payload = {
-      first_name: this.contact.firstName,
-      last_name: this.contact.lastName,
-      is_active: this.contact.isActive
-    };
-
-    this.contactService.createContact(this.userId, payload).subscribe({
-      next: (res) => {
-        alert('Contact created successfully!');
-    
-        this.router.navigate([`/contacts/view/${this.userId}`]);
-      },
-      error: (err) => {
-        console.error('Error creating contact:', err);
-        alert('Error creating contact! ' + (err.error?.message || err.statusText));
-      }
-    });
+    this.contact.details.push({ ...this.newDetail });
+    this.newDetail.value = ''; // clear input
   }
+
+  removeDetail(index: number) {
+    this.contact.details.splice(index, 1);
+  }
+
+createContact() {
+  if (!this.userId || this.userId <= 0) {
+    alert('Please enter a valid User ID!');
+    return;
+  }
+
+  // Correct payload matching backend
+const payload = {
+  first_name: this.contact.firstName, // map component firstName to backend
+  last_name: this.contact.lastName,   // map component lastName to backend
+  details: this.contact.details || [] // map component details to backend
+};
+
+// Send payload
+this.contactService.createContact(this.userId, payload as any).subscribe({
+  next: (res) => { alert('Contact created successfully!'); },
+  error: (err) => { console.error(err); }
+});
+
+
+}
+
 }

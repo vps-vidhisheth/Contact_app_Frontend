@@ -1,6 +1,11 @@
-<nav class="navbar">
-  <a routerLink="/users" routerLinkActive="active-link">Users</a>
-  <a routerLink="/contacts" routerLinkActive="active-link">Contacts</a>
-  <a routerLink="/contact-details" routerLinkActive="active-link">Contact Details</a>
+<nav class="navbar" *ngIf="isLoggedIn">
+  <!-- Only for admin -->
+  <a *ngIf="isAdmin" routerLink="/users" routerLinkActive="active-link">Users</a>
+
+  <!-- Only for staff -->
+  <a *ngIf="isStaff" routerLink="/contacts" routerLinkActive="active-link">Contacts</a>
+ 
+
+  <!-- Common -->
   <a (click)="logout()">Logout</a>
 </nav>

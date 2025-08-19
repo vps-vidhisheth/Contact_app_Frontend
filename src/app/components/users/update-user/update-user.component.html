@@ -1,28 +1,63 @@
 <form (ngSubmit)="updateUser()">
+
   <label>User ID:</label>
-  <input type="number" [(ngModel)]="userId" name="userId" required />
+  <input
+    type="number"
+    [(ngModel)]="userId"
+    name="userId"
+    required
+    appDynamicUrl="userId"
+  />
   <button type="button" (click)="loadUser()">Load User</button>
 
   <label>First Name:</label>
-  <input type="text" [(ngModel)]="user.f_name" name="f_name" />
+  <input
+    type="text"
+    [(ngModel)]="user.f_name"
+    name="f_name"
+    appDynamicUrl="f_name"
+  />
 
   <label>Last Name:</label>
-  <input type="text" [(ngModel)]="user.l_name" name="l_name" />
+  <input
+    type="text"
+    [(ngModel)]="user.l_name"
+    name="l_name"
+    appDynamicUrl="l_name"
+  />
 
   <label>Email:</label>
-  <input type="email" [(ngModel)]="user.email" name="email" />
+  <input
+    type="email"
+    [(ngModel)]="user.email"
+    name="email"
+    appDynamicUrl="email"
+  />
 
   <label>Password (leave blank to keep current):</label>
-  <input type="password" [(ngModel)]="user.password" name="password" />
+  <input
+    type="password"
+    [(ngModel)]="user.password"
+    name="password"
+    appDynamicUrl="password"
+  />
 
   <label>Admin:</label>
-  <select [(ngModel)]="user.is_admin" name="is_admin">
+  <select
+    [(ngModel)]="user.is_admin"
+    name="is_admin"
+    appDynamicUrl="is_admin"
+  >
     <option [ngValue]="true">Yes</option>
     <option [ngValue]="false">No</option>
   </select>
 
   <label>Active:</label>
-  <select [(ngModel)]="user.is_active" name="is_active">
+  <select
+    [(ngModel)]="user.is_active"
+    name="is_active"
+    appDynamicUrl="is_active"
+  >
     <option [ngValue]="true">Yes</option>
     <option [ngValue]="false">No</option>
   </select>

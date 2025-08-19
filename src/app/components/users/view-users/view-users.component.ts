@@ -29,7 +29,7 @@ export class ViewUsersComponent implements OnInit {
   users: User[] = [];
   loading: boolean = false;
   error: string = '';
-  private apiUrl = 'http://localhost:8080/api/user';
+  private apiUrl = 'http://localhost:8080/api/v1/user';
 
   constructor(private http: HttpClient, private auth: AuthService) {}
 

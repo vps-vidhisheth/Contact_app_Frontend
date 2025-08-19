@@ -1,9 +1,9 @@
+
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
-
 
 import { UsersComponent } from './components/users/users.component';
 import { CreateUserComponent } from './components/users/create-user/create-user.component';
@@ -24,26 +24,31 @@ import { UpdateContactDetailComponent } from './components/contact-details/updat
 import { DeleteContactDetailComponent } from './components/contact-details/delete-contact-detail/delete-contact-detail.component';
 
 const routes: Routes = [
+  // Root redirect
   { path: '', redirectTo: '/login', pathMatch: 'full' },
 
-
+  // Login routes
   { path: 'login', component: LoginComponent },
+  { path: 'login/:email', component: LoginComponent }, // Dynamic email path
+
   { path: 'register', component: RegisterComponent },
 
-
+  // Users routes with children
   { 
     path: 'users', 
     component: UsersComponent,
     children: [
-      { path: 'create', component: CreateUserComponent },
-      { path: 'view', component: ViewUsersComponent },
-      { path: 'update', component: UpdateUserComponent },
-      { path: 'delete', component: DeleteUserComponent },
-      { path: '', redirectTo: 'view', pathMatch: 'full' } 
-    ]
+  { path: 'create', component: CreateUserComponent },
+  { path: 'create/:field/:value', component: CreateUserComponent }, // <-- add this
+  { path: 'view', component: ViewUsersComponent },
+  { path: 'update', component: UpdateUserComponent },
+  { path: 'delete', component: DeleteUserComponent },
+  { path: '', redirectTo: 'view', pathMatch: 'full' }
+]
+
   },
 
-
+  // Contacts routes with children
   { 
     path: 'contacts',
     component: ContactsComponent,
@@ -56,6 +61,7 @@ const routes: Routes = [
     ]
   },
 
+  // Contact-details routes with children
   {
     path: 'contact-details',
     component: ContactDetailComponent,
@@ -68,6 +74,7 @@ const routes: Routes = [
     ]
   },
 
+  // Wildcard redirect
   { path: '**', redirectTo: '/login' }
 ];
 

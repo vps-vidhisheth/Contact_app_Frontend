@@ -1,13 +1,15 @@
-import { Component } from '@angular/core';
+
+
+import { Component, OnInit } from '@angular/core';
 import { AuthService, User } from '../../../../services/auth.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-create-user',
   templateUrl: './create-user.component.html',
   styleUrls: ['./create-user.component.css']
 })
-export class CreateUserComponent {
+export class CreateUserComponent implements OnInit {
 
   newUser: any = {
     f_name: '',
@@ -23,10 +25,24 @@ export class CreateUserComponent {
   successMessage: string = '';
   errorMessage: string = '';
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
+
+ngOnInit() {
+  this.route.queryParams.subscribe(params => {
+    Object.keys(params).forEach(key => {
+      if (this.newUser.hasOwnProperty(key)) {
+        this.newUser[key] = decodeURIComponent(params[key]);
+      }
+    });
+  });
+}
+
 
   createUser() {
-  
     const f_name = this.newUser.f_name || this.newUser.first_name;
     const l_name = this.newUser.l_name || this.newUser.last_name;
 
@@ -54,7 +70,6 @@ export class CreateUserComponent {
         this.successMessage = res?.message || 'User created successfully!';
         this.errorMessage = '';
         this.clearForm();
-
         this.router.navigate(['/login']);
       },
       error: (err: any) => {

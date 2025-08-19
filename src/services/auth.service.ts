@@ -2,10 +2,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
+import { jwtDecode } from 'jwt-decode';
 
-
+// ---------------------- Interfaces ----------------------
 export interface User {
-  user_id?: number; 
+  user_id?: number;
   f_name: string;
   l_name: string;
   email: string;
@@ -14,39 +15,71 @@ export interface User {
   is_active?: boolean | number;
 }
 
+export interface DecodedToken {
+  user_id: number;
+  email: string;
+  is_admin: boolean | number;
+  exp: number;
+  iat?: number;
+}
+
+// ---------------------- Service ----------------------
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  private baseUrl = 'http://localhost:8080/api/v1';  // ✅ direct baseUrl
+  private tokenKey = 'authToken';
 
-  private baseUrl = 'http://localhost:8080/api'; 
-
-  private loggedIn = new BehaviorSubject<boolean>(!!localStorage.getItem('authToken'));
+  private loggedIn = new BehaviorSubject<boolean>(!!localStorage.getItem(this.tokenKey));
   isLoggedIn$ = this.loggedIn.asObservable();
 
   constructor(private http: HttpClient) {}
 
- 
+  // 🔹 Auth ----------------------
   login(email: string, password: string): Observable<any> {
     return this.http.post(`${this.baseUrl}/login`, { email, password });
   }
 
-  saveToken(token: string) {
-    localStorage.setItem('authToken', token);
+  saveToken(token: string): void {
+    localStorage.setItem(this.tokenKey, token);
     this.loggedIn.next(true);
   }
 
   getToken(): string | null {
-    return localStorage.getItem('authToken');
+    return localStorage.getItem(this.tokenKey);
   }
 
-  logout() {
-    localStorage.removeItem('authToken');
+  logout(): void {
+    localStorage.removeItem(this.tokenKey);
     this.loggedIn.next(false);
   }
 
-  setLoginStatus(status: boolean) {
+  setLoginStatus(status: boolean): void {
     this.loggedIn.next(status);
+  }
+
+  getDecodedToken(): DecodedToken | null {
+    const token = this.getToken();
+    if (!token) return null;
+    try {
+      return jwtDecode<DecodedToken>(token);
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      return null;
+    }
+  }
+
+  getUserRole(): 'admin' | 'staff' | null {
+    const decoded = this.getDecodedToken();
+    if (!decoded) return null;
+    return decoded.is_admin === true || decoded.is_admin === 1 ? 'admin' : 'staff';
+  }
+
+  isTokenExpired(): boolean {
+    const decoded = this.getDecodedToken();
+    if (!decoded?.exp) return true;
+    return Date.now() >= decoded.exp * 1000;
   }
 
   private getAuthHeaders(): HttpHeaders {
@@ -58,7 +91,7 @@ export class AuthService {
     return headers;
   }
 
- 
+  // 🔹 User CRUD ----------------------
   createUser(userData: User): Observable<any> {
     return this.http.post(`${this.baseUrl}/user`, userData, { headers: this.getAuthHeaders() });
   }
@@ -67,15 +100,33 @@ export class AuthService {
     return this.http.get(`${this.baseUrl}/user`, { headers: this.getAuthHeaders() });
   }
 
-  updateUser(id: number, userData: Partial<User>): Observable<any> {
-    return this.http.put(`${this.baseUrl}/user/${id}`, userData, { headers: this.getAuthHeaders() });
+ updateUserWithParams(params: any): Observable<any> {
+  const userId = params.userId;
+  const body = {
+    f_name: params.f_name,
+    l_name: params.l_name,
+    email: params.email,
+    password: params.password,
+    is_admin: params.is_admin,
+    is_active: params.is_active
+  };
+
+  return this.http.put(
+    `${this.baseUrl}/user/${userId}`, // Correct endpoint
+    body, // Send the data in the body, not as query params
+    { headers: this.getAuthHeaders() }
+  );
+}
+
+  deleteUser(userId: number): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/user/${userId}`, { headers: this.getAuthHeaders() });
   }
 
-  deleteUser(id: number): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/user/${id}`, { headers: this.getAuthHeaders() });
+  getUserById(id: number): Observable<User> {
+    return this.http.get<User>(`${this.baseUrl}/user/${id}`, { headers: this.getAuthHeaders() });
   }
 
-
+  // 🔹 Contact CRUD ----------------------
   createContact(userId: number, contactData: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/users/${userId}/contacts`, contactData, { headers: this.getAuthHeaders() });
   }
@@ -92,25 +143,24 @@ export class AuthService {
     return this.http.delete(`${this.baseUrl}/users/${userId}/contacts/${contactId}`, { headers: this.getAuthHeaders() });
   }
 
-
- createContactDetail(userId: number, contactId: number, detailData: any): Observable<any> {
-  const url = `${this.baseUrl}/user/${userId}/contacts/${contactId}/details`;
-  return this.http.post(url, detailData, { headers: this.getAuthHeaders() });
-}
+  // 🔹 Contact Details CRUD ----------------------
+  createContactDetail(userId: number, contactId: number, detailData: any): Observable<any> {
+    const url = `${this.baseUrl}/users/${userId}/contacts/${contactId}/details`;
+    return this.http.post(url, detailData, { headers: this.getAuthHeaders() });
+  }
 
   getContactDetails(contactId: number): Observable<any> {
     return this.http.get(`${this.baseUrl}/contacts/${contactId}/details`, { headers: this.getAuthHeaders() });
   }
 
- updateContactDetail(userId: number, contactId: number, detailId: number, detailData: any): Observable<any> {
-  const url = `${this.baseUrl}/user/${userId}/contacts/${contactId}/details/${detailId}`;
+  updateContactDetail(userId: number, contactId: number, detailId: number, detailData: any): Observable<any> {
+    const url = `${this.baseUrl}/users/${userId}/contacts/${contactId}/details/${detailId}`;
+    const body = detailData.type.toLowerCase() === 'email'
+      ? { email: detailData.value }
+      : { phone: detailData.value };
 
-  const body = detailData.type.toLowerCase() === 'email'
-    ? { email: detailData.value }
-    : { phone: detailData.value };
-
-  return this.http.put(url, body, { headers: this.getAuthHeaders() });
-}
+    return this.http.put(url, body, { headers: this.getAuthHeaders() });
+  }
 
   deleteContactDetail(contactId: number, detailId: number): Observable<any> {
     return this.http.delete(`${this.baseUrl}/contacts/${contactId}/details/${detailId}`, { headers: this.getAuthHeaders() });

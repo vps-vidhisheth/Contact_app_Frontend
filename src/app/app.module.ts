@@ -30,6 +30,8 @@ import { DeleteContactDetailComponent } from './components/contact-details/delet
 
 import { MenuComponent } from './components/menu/menu.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { DynamicUrlInputComponent } from './dynamic-url-input/dynamic-url-input.component';
+import { DynamicUrlDirective } from './shared/directives/dynamic-url.directive';
 
 @NgModule({
   declarations: [
@@ -60,7 +62,9 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 
    
     MenuComponent,
-    NavbarComponent
+    NavbarComponent,
+    DynamicUrlInputComponent,
+    DynamicUrlDirective
   ],
   imports: [
     BrowserModule,
@@ -72,3 +76,4 @@ import { NavbarComponent } from './components/navbar/navbar.component';
   bootstrap: [AppComponent]
 })
 export class AppModule {}
+
