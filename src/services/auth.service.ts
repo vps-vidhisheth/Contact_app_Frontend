@@ -4,7 +4,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
 
-// ---------------------- Interfaces ----------------------
 export interface User {
   user_id?: number;
   f_name: string;
@@ -23,12 +22,11 @@ export interface DecodedToken {
   iat?: number;
 }
 
-// ---------------------- Service ----------------------
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private baseUrl = 'http://localhost:8080/api/v1';  // ✅ direct baseUrl
+  private baseUrl = 'http://localhost:8080/api/v1';  
   private tokenKey = 'authToken';
 
   private loggedIn = new BehaviorSubject<boolean>(!!localStorage.getItem(this.tokenKey));
@@ -36,7 +34,7 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  // 🔹 Auth ----------------------
+
   login(email: string, password: string): Observable<any> {
     return this.http.post(`${this.baseUrl}/login`, { email, password });
   }
@@ -91,7 +89,7 @@ export class AuthService {
     return headers;
   }
 
-  // 🔹 User CRUD ----------------------
+  //  User CRUD 
   createUser(userData: User): Observable<any> {
     return this.http.post(`${this.baseUrl}/user`, userData, { headers: this.getAuthHeaders() });
   }
@@ -112,8 +110,8 @@ export class AuthService {
   };
 
   return this.http.put(
-    `${this.baseUrl}/user/${userId}`, // Correct endpoint
-    body, // Send the data in the body, not as query params
+    `${this.baseUrl}/user/${userId}`,
+    body, 
     { headers: this.getAuthHeaders() }
   );
 }
@@ -126,7 +124,7 @@ export class AuthService {
     return this.http.get<User>(`${this.baseUrl}/user/${id}`, { headers: this.getAuthHeaders() });
   }
 
-  // 🔹 Contact CRUD ----------------------
+  //  Contact CRUD
   createContact(userId: number, contactData: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/users/${userId}/contacts`, contactData, { headers: this.getAuthHeaders() });
   }
@@ -143,7 +141,7 @@ export class AuthService {
     return this.http.delete(`${this.baseUrl}/users/${userId}/contacts/${contactId}`, { headers: this.getAuthHeaders() });
   }
 
-  // 🔹 Contact Details CRUD ----------------------
+  //  Contact Details CRUD 
   createContactDetail(userId: number, contactId: number, detailData: any): Observable<any> {
     const url = `${this.baseUrl}/users/${userId}/contacts/${contactId}/details`;
     return this.http.post(url, detailData, { headers: this.getAuthHeaders() });

@@ -6,14 +6,16 @@ import { Observable } from 'rxjs';
 export interface ContactDetail {
   type: string;
   value: string;
+  is_active?: boolean; 
 }
 
+
 export interface Contact {
-  contact_id?: number; // optional for new contacts
+  contact_id?: number; 
   fname: string;
   lname: string;
   is_active: boolean;
-  Details?: ContactDetail[]; // optional for create/update
+  Details?: ContactDetail[]; 
 }
 
 

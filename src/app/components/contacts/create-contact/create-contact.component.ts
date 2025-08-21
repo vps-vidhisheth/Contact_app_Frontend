@@ -27,7 +27,7 @@ export class CreateContactComponent {
   ) {}
 
    ngOnInit() {
-    // Load values from query params
+  
     const params = this.route.snapshot.queryParams;
     if (params['userId']) this.userId = +params['userId'];
     if (params['first_name']) this.contact.firstName = params['first_name'];
@@ -36,19 +36,23 @@ export class CreateContactComponent {
     if (params['detail_type'] && params['detail_value']) {
       this.newDetail.type = params['detail_type'];
       this.newDetail.value = params['detail_value'];
-      // Optional: push to details array immediately
       this.contact.details.push({ type: this.newDetail.type, value: this.newDetail.value });
     }
   }
 
-  addDetail() {
-    if (!this.newDetail.value.trim()) {
-      alert('Detail value cannot be empty');
-      return;
-    }
-    this.contact.details.push({ ...this.newDetail });
-    this.newDetail.value = ''; // clear input
+addDetail() {
+  if (!this.newDetail.value.trim()) {
+    alert('Detail value cannot be empty');
+    return;
   }
+  this.contact.details.push({ 
+    type: this.newDetail.type, 
+    value: this.newDetail.value, 
+    is_active: true 
+  });
+  this.newDetail.value = ''; 
+}
+
 
   removeDetail(index: number) {
     this.contact.details.splice(index, 1);
@@ -60,14 +64,17 @@ createContact() {
     return;
   }
 
-  // Correct payload matching backend
 const payload = {
-  first_name: this.contact.firstName, // map component firstName to backend
-  last_name: this.contact.lastName,   // map component lastName to backend
-  details: this.contact.details || [] // map component details to backend
+  first_name: this.contact.firstName,
+  last_name: this.contact.lastName,
+  details: this.contact.details.map(d => ({
+    type: d.type,
+    value: d.value,
+    is_active: true 
+  }))
 };
 
-// Send payload
+
 this.contactService.createContact(this.userId, payload as any).subscribe({
   next: (res) => { alert('Contact created successfully!'); },
   error: (err) => { console.error(err); }

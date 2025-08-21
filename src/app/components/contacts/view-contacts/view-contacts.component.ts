@@ -101,10 +101,11 @@ export class ViewContactsComponent implements OnInit {
           id: c.contact_id,
           firstName: c.f_name || '',
           lastName: c.l_name || '',
-          isActive: c.is_active === 1,
-          details: Array.isArray(c.Details)
-            ? c.Details.map((d: any) => ({ type: d.type, value: d.value }))
-            : []
+          isActive: c.is_active == 1,
+         details: Array.isArray(c.details)
+    ? c.details.map((d: any) => ({ type: d.type, value: d.value }))
+    : []
+
         }));
       },
       error: (err) => {
