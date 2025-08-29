@@ -65,19 +65,19 @@ ngOnInit() {
       is_active: !!this.newUser.is_active
     };
 
-    this.authService.createUser(payload).subscribe({
-      next: (res: any) => {
-        this.successMessage = res?.message || 'User created successfully!';
-        this.errorMessage = '';
-        this.clearForm();
-        this.router.navigate(['/login']);
-      },
-      error: (err: any) => {
-        console.error('Backend error:', err);
-        this.errorMessage = err.error?.message || 'Failed to create user';
-        this.successMessage = '';
-      }
-    });
+ this.authService.createUser(payload).subscribe({
+  next: (res: any) => {
+    this.successMessage = res?.message || 'User created successfully!';
+    this.errorMessage = '';
+    this.clearForm(); 
+  },
+  error: (err: any) => {
+    console.error('Backend error:', err);
+    this.errorMessage = err.error?.message || 'Failed to create user';
+    this.successMessage = '';
+  }
+});
+
   }
 
   clearForm() {

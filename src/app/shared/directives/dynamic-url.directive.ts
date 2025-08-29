@@ -8,7 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   providers: [NgModel]
 })
 export class DynamicUrlDirective {
-  @Input('appDynamicUrl') fieldName: string = ''; // e.g., f_name, email
+  @Input('appDynamicUrl') fieldName: string = ''; 
 
   constructor(
     private location: Location,
@@ -18,15 +18,13 @@ export class DynamicUrlDirective {
 
   @HostListener('input', ['$event.target.value'])
   onInput(value: string) {
-    // Get current query params
+
     const currentParams = { ...this.route.snapshot.queryParams };
 
-    // Update the specific field
     if (this.fieldName) {
       currentParams[this.fieldName] = value.trim();
     }
 
-    // Update the URL with all query params (without navigating)
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: currentParams,

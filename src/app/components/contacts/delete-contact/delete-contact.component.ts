@@ -18,14 +18,13 @@ export class DeleteContactComponent {
   ) {}
 
    ngOnInit() {
-    // Read query params and populate inputs
+ 
     const params = this.route.snapshot.queryParams;
     if (params['userId']) this.userId = +params['userId'];
     if (params['contactId']) this.contactId = +params['contactId'];
   }
 
 
-    // Update URL query params
   updateQueryParams() {
     const params: any = {
       userId: this.userId,

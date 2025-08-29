@@ -1,6 +1,3 @@
-
-
-
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
@@ -22,7 +19,7 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // Pre-fill email if route param exists
+
     this.route.params.subscribe(params => {
       if (params['email']) {
         this.email = decodeURIComponent(params['email']);
@@ -30,7 +27,6 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  // Dynamic URL update while typing
   updateURL(value: string) {
     const encodedValue = encodeURIComponent(value.trim());
     this.router.navigate(['/login', encodedValue], {
@@ -38,7 +34,6 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  // Login logic
   onLogin() {
     if (!this.email || !this.password) {
       alert('Please enter email and password.');
@@ -61,7 +56,7 @@ export class LoginComponent implements OnInit {
           } else if (role === 'staff') {
             this.router.navigate(['/contacts']);
           } else {
-            this.router.navigate(['/login']); // fallback
+            this.router.navigate(['/login']); 
           }
 
           this.clearForm();

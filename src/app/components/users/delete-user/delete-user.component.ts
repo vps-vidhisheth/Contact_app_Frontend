@@ -17,7 +17,7 @@ export class DeleteUserComponent {
     private router: Router,
     private route: ActivatedRoute
   ) {
-    // Read ID from URL on load
+
     this.route.queryParams.subscribe(params => {
       if (params['id']) {
         this.userId = +params['id']; 
@@ -25,16 +25,15 @@ export class DeleteUserComponent {
     });
   }
 
-  // Update URL as soon as user types
+
   updateUrl() {
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: { id: this.userId || null },
-      queryParamsHandling: 'merge' // keeps other params if any
+      queryParamsHandling: 'merge' 
     });
   }
 
-  // Delete user
   deleteUser() {
     if (!this.userId) {
       this.errorMessage = 'Please enter a valid User ID';
@@ -48,7 +47,6 @@ export class DeleteUserComponent {
         this.errorMessage = '';
         this.userId = null;
 
-        // Clear query param after delete
         this.router.navigate([], {
           relativeTo: this.route,
           queryParams: {},

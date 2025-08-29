@@ -4,7 +4,6 @@
   <h2>Login</h2>
   <form (ngSubmit)="onLogin()" #loginForm="ngForm" novalidate>
     
-    <!-- Email Input with Dynamic URL -->
     <div class="form-group">
       <label for="email">Email</label>
       <input
@@ -24,7 +23,6 @@
       </div>
     </div>
 
-    <!-- Password Input -->
     <div class="form-group">
       <label for="password">Password</label>
       <input
@@ -41,7 +39,6 @@
       </div>
     </div>
 
-    <!-- Submit Button -->
     <button type="submit" [disabled]="!loginForm.form.valid">Login</button>
   </form>
 </div>

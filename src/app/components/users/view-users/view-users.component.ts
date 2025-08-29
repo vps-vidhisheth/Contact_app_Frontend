@@ -1,24 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { AuthService } from '../../../../services/auth.service';
-
-interface User {
-  id: number;
-  firstName: string;
-  lastName: string;
-  email: string;
-}
-
-interface BackendUser {
-  user_id: number;
-  first_name: string;
-  last_name: string;
-  email: string;
-  password: string;
-  is_admin: boolean;
-  is_active: boolean;
-  contacts: any;
-}
+import { AuthService, User } from '../../../../services/auth.service';
 
 @Component({
   selector: 'app-view-users',
@@ -27,52 +8,63 @@ interface BackendUser {
 })
 export class ViewUsersComponent implements OnInit {
   users: User[] = [];
+  page: number = 1;
+  limit: number = 5;
+  total: number = 0;
+  totalPages: number = 0;
   loading: boolean = false;
   error: string = '';
-  private apiUrl = 'http://localhost:8080/api/v1/user';
 
-  constructor(private http: HttpClient, private auth: AuthService) {}
+  constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
-    this.getUsers();
+    this.fetchUsers();
   }
 
-  getUsers(): void {
-    this.loading = true;
-    this.error = '';
-
-    const token = this.auth.getToken();
-    if (!token) {
-      this.error = 'Please login as admin first.';
+ fetchUsers(): void {
+  this.loading = true;
+  this.error = '';
+  this.authService.getUsers(this.page, this.limit).subscribe({
+    next: (res) => {
+      this.users = res.users;
+      this.total = res.total;
+      this.page = res.page;
+      this.limit = res.limit;
+      this.totalPages = Math.ceil(this.total / this.limit);
       this.loading = false;
-      return;
+    },
+    error: (err) => {
+      console.error('Error fetching users:', err);
+      this.error = 'Failed to load users';
+      this.loading = false;
     }
+  });
+}
 
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`
-    });
 
-    this.http.get<BackendUser[]>(this.apiUrl, { headers }).subscribe({
-      next: (res) => {
-        this.loading = false;
+  prevPage(): void {
+    if (this.page > 1) {
+      this.page--;
+      this.fetchUsers();
+    }
+  }
 
-        if (!res || res.length === 0) {
-          this.error = 'No users found.';
-          return;
-        }
+  nextPage(): void {
+    if (this.page < this.totalPages) {
+      this.page++;
+      this.fetchUsers();
+    }
+  }
 
-        this.users = res.map((user: BackendUser) => ({
-          id: user.user_id,
-          firstName: user.first_name,
-          lastName: user.last_name,
-          email: user.email
-        }));
-      },
-      error: (err) => {
-        this.loading = false;
-        this.error = err.status === 401 ? 'Unauthorized. Login as admin.' : 'Failed to fetch users.';
-        console.error(err);
-      }
-    });
+  goToPage(p: number): void {
+    if (p >= 1 && p <= this.totalPages) {
+      this.page = p;
+      this.fetchUsers();
+    }
+  }
+
+  // Getter for pagination buttons
+  get pages(): number[] {
+    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
   }
 }

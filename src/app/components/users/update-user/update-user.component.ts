@@ -1,5 +1,3 @@
-
-
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService, User } from '../../../../services/auth.service';
@@ -18,7 +16,6 @@ export class UpdateUserComponent implements OnInit {
   constructor(private authService: AuthService, private route: ActivatedRoute) {}
 
   ngOnInit() {
-    // Read query params on load
     this.route.queryParams.subscribe(params => {
       if (params['userId']) {
         this.userId = +params['userId'];
@@ -35,14 +32,14 @@ export class UpdateUserComponent implements OnInit {
     });
   }
 
-  loadUser() {
+  loadUser(page: number = 1, limit: number = 1000) { 
     if (!this.userId) {
       this.errorMessage = 'Please enter a valid user ID.';
       return;
     }
 
-    this.authService.getUsers().subscribe({
-      next: (users: User[]) => {
+    this.authService.getUsers(page, limit).subscribe({
+      next: ({ users }) => {  
         const u = users.find(x => x.user_id === this.userId);
         if (u) {
           this.user = { ...u }; 
@@ -57,36 +54,35 @@ export class UpdateUserComponent implements OnInit {
     });
   }
 
-updateUser() {
-  if (!this.userId) {
-    this.errorMessage = 'User ID is required to update.';
-    return;
-  }
 
-  this.authService.updateUserWithParams({
-    userId: this.userId,
-    f_name: this.user.f_name,
-    l_name: this.user.l_name,
-    email: this.user.email,
-    password: this.user.password,
-    is_admin: this.user.is_admin,
-    is_active: this.user.is_active
-  }).subscribe({
-    next: (res: any) => {
-      this.successMessage = res?.message || 'User updated successfully!';
-      this.errorMessage = '';
-
-      // Refresh the user object with updated values from backend
-      if (res?.user) {
-        this.user = { ...res.user };
-      }
-    },
-    error: (err: any) => {
-      console.error('Backend error:', err);
-      this.errorMessage = err.error?.message || 'Failed to update user';
-      this.successMessage = '';
+  updateUser() {
+    if (!this.userId) {
+      this.errorMessage = 'User ID is required to update.';
+      return;
     }
-  });
-}
 
+    this.authService.updateUserWithParams({
+      userId: this.userId,
+      f_name: this.user.f_name,
+      l_name: this.user.l_name,
+      email: this.user.email,
+      password: this.user.password,
+      is_admin: this.user.is_admin,
+      is_active: this.user.is_active
+    }).subscribe({
+      next: (res: any) => {
+        this.successMessage = res?.message || 'User updated successfully!';
+        this.errorMessage = '';
+
+        if (res?.user) {
+          this.user = { ...res.user };
+        }
+      },
+      error: (err: any) => {
+        console.error('Backend error:', err);
+        this.errorMessage = err.error?.message || 'Failed to update user';
+        this.successMessage = '';
+      }
+    });
+  }
 }

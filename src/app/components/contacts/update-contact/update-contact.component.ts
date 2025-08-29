@@ -53,7 +53,6 @@ export class UpdateContactComponent {
     }
   }
 
-  // --- Add this method ---
   updateQueryParams() {
     const params: any = {
       userId: this.userId,
@@ -75,7 +74,6 @@ export class UpdateContactComponent {
     });
   }
 
-  // Load contact + details from backend
   loadContact() {
     if (this.userId == null || this.contactId == null) {
       this.errorMessage = 'Please enter both User ID and Contact ID.';

@@ -38,7 +38,6 @@ export class ContactService {
     return headers;
   }
 
-  // Create a new contact (with optional details)
   createContact(userId: number, contact: Contact): Observable<Contact> {
     return this.http.post<Contact>(
       `${this.apiUrl}/${userId}/contacts`,
@@ -47,7 +46,6 @@ export class ContactService {
     );
   }
 
-  // Get all contacts with details
   getContactsWithDetails(userId: number): Observable<Contact[]> {
     return this.http.get<Contact[]>(
       `${this.apiUrl}/${userId}/contacts`,
@@ -55,7 +53,6 @@ export class ContactService {
     );
   }
 
-  // Get a single contact with details
   getContactByIdDetails(userId: number, contactId: number): Observable<Contact> {
     return this.http.get<Contact>(
       `${this.apiUrl}/${userId}/contacts/${contactId}`,
@@ -63,13 +60,11 @@ export class ContactService {
     );
   }
 
-  // Update a contact (full update)
 updateContact(userId: number, contactId: number, contact: Partial<Contact>): Observable<any> {
   const url = `${this.apiUrl}/${userId}/contacts/${contactId}`;
   return this.http.put(url, contact, { headers: this.getAuthHeaders() });
 }
 
-  // Delete a contact (cascade deletes details via backend)
   deleteContact(userId: number, contactId: number): Observable<any> {
     return this.http.delete(
       `${this.apiUrl}/${userId}/contacts/${contactId}`,
@@ -77,7 +72,6 @@ updateContact(userId: number, contactId: number, contact: Partial<Contact>): Obs
     );
   }
 
-  // Add a contact detail
   addContactDetail(userId: number, contactId: number, detail: ContactDetail): Observable<ContactDetail> {
     return this.http.post<ContactDetail>(
       `${this.apiUrl}/${userId}/contacts/${contactId}/details`,
@@ -86,7 +80,6 @@ updateContact(userId: number, contactId: number, contact: Partial<Contact>): Obs
     );
   }
 
-  // Update an existing contact detail
   updateContactDetail(userId: number, detailId: number, detail: ContactDetail): Observable<ContactDetail> {
     return this.http.put<ContactDetail>(
       `${this.apiUrl}/${userId}/contacts/details/${detailId}`,
@@ -95,7 +88,6 @@ updateContact(userId: number, contactId: number, contact: Partial<Contact>): Obs
     );
   }
 
-  // Delete a single contact detail
   deleteContactDetail(userId: number, detailId: number): Observable<any> {
     return this.http.delete(
       `${this.apiUrl}/${userId}/contacts/details/${detailId}`,

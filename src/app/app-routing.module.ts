@@ -24,22 +24,22 @@ import { UpdateContactDetailComponent } from './components/contact-details/updat
 import { DeleteContactDetailComponent } from './components/contact-details/delete-contact-detail/delete-contact-detail.component';
 
 const routes: Routes = [
-  // Root redirect
+
   { path: '', redirectTo: '/login', pathMatch: 'full' },
 
-  // Login routes
+
   { path: 'login', component: LoginComponent },
-  { path: 'login/:email', component: LoginComponent }, // Dynamic email path
+  { path: 'login/:email', component: LoginComponent }, 
 
   { path: 'register', component: RegisterComponent },
 
-  // Users routes with children
+
   { 
     path: 'users', 
     component: UsersComponent,
     children: [
   { path: 'create', component: CreateUserComponent },
-  { path: 'create/:field/:value', component: CreateUserComponent }, // <-- add this
+  { path: 'create/:field/:value', component: CreateUserComponent },
   { path: 'view', component: ViewUsersComponent },
   { path: 'update', component: UpdateUserComponent },
   { path: 'delete', component: DeleteUserComponent },
@@ -48,7 +48,7 @@ const routes: Routes = [
 
   },
 
-  // Contacts routes with children
+
   { 
     path: 'contacts',
     component: ContactsComponent,
@@ -61,7 +61,6 @@ const routes: Routes = [
     ]
   },
 
-  // Contact-details routes with children
   {
     path: 'contact-details',
     component: ContactDetailComponent,
@@ -74,7 +73,7 @@ const routes: Routes = [
     ]
   },
 
-  // Wildcard redirect
+
   { path: '**', redirectTo: '/login' }
 ];
 
