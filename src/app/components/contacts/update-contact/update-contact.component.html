@@ -1,4 +1,4 @@
-
+<!-- 
 <div class="update-form">
   <h2>Update Contact</h2>
 
@@ -85,4 +85,77 @@
     <div *ngIf="errorMessage" style="color: red; margin-top: 10px;">{{ errorMessage }}</div>
 
   </form>
-</div>
+</div> -->
+
+<form (ngSubmit)="updateContact()">
+
+  <label>User ID:</label>
+  <input
+    type="number"
+    [(ngModel)]="userId"
+    name="userId"
+    required
+    appDynamicUrl="userId"
+  />
+
+  <label>Contact ID:</label>
+  <input
+    type="number"
+    [(ngModel)]="contactId"
+    name="contactId"
+    required
+    appDynamicUrl="contactId"
+  />
+  <button type="button" (click)="loadContact()">Load Contact</button>
+
+  <label>First Name:</label>
+  <input
+    type="text"
+    [(ngModel)]="contact.firstName"
+    name="firstName"
+    appDynamicUrl="firstName"
+  />
+
+  <label>Last Name:</label>
+  <input
+    type="text"
+    [(ngModel)]="contact.lastName"
+    name="lastName"
+    appDynamicUrl="lastName"
+  />
+
+  <label>Active:</label>
+  <select
+    [(ngModel)]="contact.isActive"
+    name="isActive"
+    appDynamicUrl="isActive"
+  >
+    <option [ngValue]="true">Yes</option>
+    <option [ngValue]="false">No</option>
+  </select>
+
+  <h3>Contact Details</h3>
+  <div *ngFor="let detail of contact.details; let i = index">
+    <label>Type:</label>
+    <input
+      type="text"
+      [(ngModel)]="detail.type"
+      name="detailType{{i}}"
+    />
+
+    <label>Value:</label>
+    <input
+      type="text"
+      [(ngModel)]="detail.value"
+      name="detailValue{{i}}"
+    />
+
+    <button type="button" (click)="removeDetail(i)">Remove</button>
+  </div>
+  <button type="button" (click)="addDetail()">Add Detail</button>
+
+  <button type="submit">Update Contact</button>
+
+  <div *ngIf="successMessage" class="success">{{ successMessage }}</div>
+  <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+</form>
